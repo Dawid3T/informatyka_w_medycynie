@@ -4,7 +4,7 @@ from sklearn.neighbors import KNeighborsClassifier
 import numpy as np
 import cv2
 import math
-
+from sklearn.utils import resample
 
 def knn(image):
     image_green = image[:, :, 1]
