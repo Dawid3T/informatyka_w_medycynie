@@ -44,7 +44,8 @@ def knn(image):
 
         train_moments_hu += train_data[0]
         train_pixel_color += train_data[1]
-
+    # undersampling
+    # train_moments_hu, train_pixel_color = resample(train_moments_hu, train_pixel_color, n_samples=50)
     knn_model = KNeighborsClassifier(n_neighbors=10)
     knn_model.fit(train_moments_hu, train_pixel_color)
 
@@ -54,7 +55,10 @@ def knn(image):
             hu_moments = get_hu_moments(fragment_image)
             binary_output_image[x][y] = 255 if knn_model.predict([hu_moments])[0] == 1 else 0
 
-
+    kernel = np.ones((3, 3), np.uint8)
+    binary_output_image = cv2.dilate(binary_output_image, kernel, iterations=1)
+    binary_output_image= morphology.remove_small_objects(binary_output_image.astype(bool), min_size=100, connectivity=1).astype( np.uint8) * 255
+    binary_output_image = cv2.erode(binary_output_image, kernel, iterations=1)
     return binary_output_image
 
 
