@@ -76,7 +76,7 @@ def get_hu_moments(fragment_image):
 
 
 def get_fragment_image(image, x, y):
-    fragment_size = 5
+    fragment_size = 3
     image_with_pads = np.pad(image,
                              [(fragment_size // 2, fragment_size // 2), (fragment_size // 2, fragment_size // 2)],
                              'constant', constant_values=(0, 0))
